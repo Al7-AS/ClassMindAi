@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self';">
+  <title>العقل الذكي | ClassMind AI</title>
+  <link rel="icon" type="image/png" href="../assets/classmind-ai-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fx.css">
+</head>
+<body class="entry-locked">
+<div id="entryScreen" class="entry-screen" aria-label="شاشة دخول السنتر">
+  <div class="desk-scene" aria-hidden="true"><div class="desk-surface"></div><div class="desk-leg left"></div><div class="desk-leg right"></div><div class="desk-laptop"><div class="screen"><div class="laptop-subject"><span>المادة</span><strong id="entrySubjectLaptop">اسم المادة</strong><small>CLASSMIND AI</small></div></div><div class="keyboard"></div></div><div class="desk-book book-a"></div><div class="desk-book book-b"></div><div class="desk-paper"></div><div class="desk-cup"><i></i></div><div class="desk-candle"></div></div>
+  <div class="teacher-banner" id="teacherBanner" aria-hidden="true"><div class="banner-rope"></div><div class="banner-card"><div class="banner-photo-wrap"><img id="teacherBannerPhoto" src="../assets/ali-ashraf.jpg" alt="صورة المدرس" draggable="false"></div><div class="banner-caption"><strong id="entryTeacherBanner">اسم المدرس</strong><span id="entrySubjectBanner">اسم المادة</span></div></div></div>
+  <div class="lamp-scene">
+    <div class="lamp-glow" id="lampGlow"></div>
+    <div class="lamp-shade"><span></span></div>
+    <div class="lamp-neck"></div><div class="lamp-base"></div>
+    <button id="lampCord" class="lamp-cord" aria-label="اسحب حبل الأباجورة لتشغيل الإضاءة" title="اسحب الحبل لتشغيل الإضاءة"><span></span></button>
+    <div class="lamp-hint" id="lampHint">اسحب الحبل لتشغيل الأباجورة</div>
+  </div>
+  <div class="entry-brand" id="entryBrand"><div class="entry-brand-title">ClassMind AI</div><div class="entry-brand-sub">Smart Center Management System</div></div>
+  <section class="entry-panel" id="entryPanel" aria-hidden="true">
+    <div class="entry-eyebrow">CLASSMIND AI · CENTER ACCESS</div>
+    <h1 id="entryCenterName">اسم السنتر</h1>
+    <p class="entry-teacher">أهلًا وسهلًا بك في ClassMind AI ✨<br>مرحبًا أستاذ <strong id="entryTeacherName">اسم المدرس</strong> — نتمنى لك يومًا دراسيًا ناجحًا.</p>
+    <form id="entryForm">
+      <label for="centerAccessCode">رمز السنتر</label>
+      <input id="centerAccessCode" name="centerAccessCode" type="password" autocomplete="current-password" placeholder="اكتب رمز السنتر" inputmode="text">
+      <p id="entryMessage" class="entry-message" role="status">اسحب الحبل لتشغيل النظام.</p>
+      <button class="entry-submit" type="submit" id="entrySubmit">دخول البرنامج</button>
+    </form>
+  </section>
+  <div class="entry-credit">تصميم <strong>مهندس علي أشرف</strong></div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><img class="logo" src="../assets/classmind-ai-icon.png" alt="ClassMind AI"><div><strong>العقل الذكي</strong><small>CLASSMIND AI</small></div></div>
+    <div class="side-label">إدارة السنتر التعليمي</div>
+    <nav id="nav">
+      <button class="nav active" data-page="dashboard">▦ <span>لوحة التحكم</span></button>
+      <button class="nav" data-page="students">♙ <span>الطلاب وملفاتهم</span></button>
+      <button class="nav" data-page="archive">🗄 <span>أرشيف الطلاب</span></button>
+      <button class="nav" data-page="groups">▤ <span>المجموعات والأسعار</span></button>
+      <button class="nav" data-page="attendance">✓ <span>تسجيل الحضور</span></button>
+      <button class="nav" data-page="payments">₪ <span>المدفوعات الشهرية</span></button>
+      <button class="nav" data-page="grades">▥ <span>الدرجات والامتحانات</span></button>
+      <button class="nav" data-page="reports">◫ <span>التقارير والتحليل</span><i class="nav-lock" aria-hidden="true">🔒</i></button>
+      <button class="nav" data-page="insights">🧠 <span>رؤى ClassMind</span></button>
+      <button class="nav" data-page="topStudents">🏆 <span>الأوائل</span></button>
+      <button class="nav" data-page="treasury">💰 <span>الخزينة</span><i class="nav-lock" aria-hidden="true">🔒</i></button>
+      <button class="nav" data-page="staff">👥 <span>الموظفين</span><i class="nav-lock" aria-hidden="true">🔒</i></button>
+      <button class="nav" data-page="notifications">🔔 <span>التنبيهات</span></button>
+      <button class="nav" data-page="activity">🧾 <span>سجل العمليات</span></button>
+      <button class="nav" data-page="settings">⚙ <span>الإعدادات</span></button>
+    </nav>
+    <div class="side-bottom"><div class="privacy"><i></i><div><b>تخزين محلي</b><small>على جهاز السنتر</small></div></div><button id="backup" class="outline full">⇩ تصدير نسخة احتياطية</button><button id="restoreBackup" class="outline full" style="margin-top:8px">♻️ استعادة نسخة</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><small class="designer-mark">مهندس علي أشرف</small><small class="kicker">CLASSMIND / CENTER MANAGEMENT</small><h1 id="title">لوحة التحكم</h1></div><div class="top-right"><button id="themeToggle" class="theme-toggle" type="button" title="تبديل الوضع اللوني" aria-label="تبديل الوضع اللوني">🌿 الوضع الفاتح</button><button id="smartAnalysisBtn" class="smart-analysis-btn" title="التحليل الذكي">✨ التحليل الذكي</button><span id="dateNow"></span><div class="avatar">م</div></div></header>
+    <div id="notice" class="notice hidden" role="status"></div>
+    <section id="content"></section>
+    <footer>ClassMind AI · الإصدار 6.3 FINAL · راجع النسخ الاحتياطية واحمِ بيانات الطلاب</footer>
+  </main>
+</div>
+<div id="modalRoot"></div><div id="smartAnalysisRoot"></div>
+<script src="app.js"></script>
+<script src="fx.js"></script>
+</body>
+</html>

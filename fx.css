@@ -1,0 +1,191 @@
+/* ==========================================================
+   ClassMind AI — FX layer: page transitions, button & UI motion
+   (additive file: loaded after style.css, does not alter logic)
+   ========================================================== */
+:root{
+  --fx-ease:cubic-bezier(.2,.85,.25,1);
+  --fx-spring:cubic-bezier(.34,1.56,.64,1);
+  --fx-glow:rgba(214,184,117,.55);
+  --fx-spot:rgba(214,184,117,.16);
+  --fx-orb1:rgba(214,184,117,.10);
+  --fx-orb2:rgba(114,185,149,.07);
+}
+body[data-theme="light"]{
+  --fx-glow:rgba(82,111,158,.45);
+  --fx-spot:rgba(82,111,158,.12);
+  --fx-orb1:rgba(82,111,158,.10);
+  --fx-orb2:rgba(71,122,90,.07);
+}
+
+/* ---------- Ambient living background ---------- */
+body::before,body::after{content:"";position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(70px);will-change:transform}
+body::before{width:46vw;height:46vw;top:-14vw;right:-10vw;background:radial-gradient(circle,var(--fx-orb1),transparent 68%);animation:fxOrbA 22s ease-in-out infinite alternate}
+body::after{width:40vw;height:40vw;bottom:-14vw;left:-8vw;background:radial-gradient(circle,var(--fx-orb2),transparent 68%);animation:fxOrbB 26s ease-in-out infinite alternate}
+.layout{position:relative;z-index:1}
+@keyframes fxOrbA{to{transform:translate3d(-9vw,8vw,0) scale(1.18)}}
+@keyframes fxOrbB{to{transform:translate3d(10vw,-7vw,0) scale(1.22)}}
+
+/* ---------- Smooth theme switch ---------- */
+body.fx-theming,body.fx-theming *{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease,box-shadow .5s ease!important}
+
+/* ---------- Entry → app reveal ---------- */
+.entry-screen{transition:opacity .8s ease,visibility .8s ease,transform .9s var(--fx-ease),filter .8s ease!important}
+.entry-screen.entry-hidden{transform:scale(1.12);filter:blur(10px)}
+body:not(.entry-locked) .layout{animation:fxLayoutIn 1s var(--fx-ease) .15s backwards}
+@keyframes fxLayoutIn{from{opacity:0;transform:scale(.97) translateY(14px);filter:blur(6px)}}
+body.fx-boot .sidebar .brand{animation:fxSlideSide .7s var(--fx-ease) .3s backwards}
+body.fx-boot .nav{animation:fxSlideSide .6s var(--fx-ease) backwards;animation-delay:calc(.35s + var(--n,0)*45ms)}
+body.fx-boot .topbar{animation:fxDrop .7s var(--fx-ease) .3s backwards}
+@keyframes fxSlideSide{from{opacity:0;transform:translateX(46px)}}
+@keyframes fxDrop{from{opacity:0;transform:translateY(-22px)}}
+.entry-submit{position:relative;overflow:hidden;transition:filter .25s,transform .25s var(--fx-spring),box-shadow .3s!important}
+.entry-submit:hover{transform:translateY(-3px) scale(1.02)!important;box-shadow:0 12px 34px -8px rgba(240,213,142,.6)}
+.entry-submit:active{transform:scale(.97)!important}
+.entry-panel input{transition:border-color .25s,box-shadow .3s,transform .25s var(--fx-spring)}
+.entry-panel input:focus{transform:translateY(-2px)}
+.login-error .entry-panel{animation:fxShake .5s ease}
+@keyframes fxShake{0%,100%{transform:translateY(-50%)}20%{transform:translateY(-50%) translateX(-12px)}40%{transform:translateY(-50%) translateX(10px)}60%{transform:translateY(-50%) translateX(-7px)}80%{transform:translateY(-50%) translateX(4px)}}
+
+/* ---------- Page transitions ---------- */
+#content{outline:none}
+#content.fx-leave{animation:fxPageOut .2s ease-in forwards;pointer-events:none}
+@keyframes fxPageOut{to{opacity:0;transform:translateY(-14px) scale(.985);filter:blur(5px)}}
+.fx-item{animation:fxRise .75s var(--fx-ease) calc(var(--i,0)*60ms) backwards}
+@keyframes fxRise{
+  0%{opacity:0;transform:translateY(34px) scale(.95);filter:blur(7px)}
+  60%{filter:blur(0)}
+  100%{opacity:1;transform:none}
+}
+#title.fx-title{animation:fxTitle .65s var(--fx-ease) backwards}
+@keyframes fxTitle{from{opacity:0;transform:translateX(-30px);letter-spacing:6px;filter:blur(6px)}}
+
+/* staged inner motion (only while a page is entering) */
+#content.fx-play .bar,#content.fx-play .chart-fill,#content.fx-play .money-bars i{transform-origin:bottom center;animation:fxGrowY 1s var(--fx-ease) .35s backwards}
+#content.fx-play .progress i{transform-origin:right center;animation:fxGrowX 1.1s var(--fx-ease) .4s backwards}
+html[dir="ltr"] #content.fx-play .progress i{transform-origin:left center}
+@keyframes fxGrowY{from{transform:scaleY(0);opacity:.2}}
+@keyframes fxGrowX{from{transform:scaleX(0)}}
+#content.fx-play .donut,#content.fx-play .finance-donut{animation:fxPop 1s var(--fx-spring) .3s backwards}
+@keyframes fxPop{from{transform:scale(.3) rotate(-120deg);opacity:0}}
+#content.fx-play tbody tr{animation:fxRow .55s var(--fx-ease) backwards}
+#content.fx-play tbody tr:nth-child(1){animation-delay:.25s}#content.fx-play tbody tr:nth-child(2){animation-delay:.31s}
+#content.fx-play tbody tr:nth-child(3){animation-delay:.37s}#content.fx-play tbody tr:nth-child(4){animation-delay:.43s}
+#content.fx-play tbody tr:nth-child(5){animation-delay:.49s}#content.fx-play tbody tr:nth-child(6){animation-delay:.55s}
+#content.fx-play tbody tr:nth-child(7){animation-delay:.61s}#content.fx-play tbody tr:nth-child(8){animation-delay:.67s}
+#content.fx-play tbody tr:nth-child(n+9){animation-delay:.72s}
+@keyframes fxRow{from{opacity:0;transform:translateX(34px)}}
+#content.fx-play .hero .spark{animation:fxSpark 3.2s ease-in-out infinite}
+.hero .spark{display:inline-block;animation:fxSpark 3.2s ease-in-out infinite}
+@keyframes fxSpark{0%,100%{transform:rotate(0) scale(1);text-shadow:0 0 0 transparent}50%{transform:rotate(180deg) scale(1.25);text-shadow:0 0 26px currentColor}}
+.top-medal-row .rank-badge{display:inline-block;animation:fxMedal 2.6s ease-in-out infinite}
+@keyframes fxMedal{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-5px) rotate(-9deg)}60%{transform:translateY(0) rotate(7deg)}}
+
+/* ---------- Buttons ---------- */
+.primary,.secondary,.danger,.outline,.quick,.tiny,.nav,.smart-analysis-btn,.theme-toggle,.modal-close,.smart-refresh,.smart-close,.entry-submit{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.primary,.secondary,.danger,.outline,.tiny,.quick,.smart-analysis-btn,.theme-toggle,.modal-close,.smart-refresh,.smart-close{
+  transition:transform .28s var(--fx-spring),box-shadow .3s ease,filter .25s ease,background-color .25s ease,border-color .25s ease,color .25s ease
+}
+.primary:hover,.secondary:hover,.outline:hover,.danger:hover,.smart-analysis-btn:hover,.theme-toggle:hover,.smart-refresh:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.1)}
+.tiny:hover,.modal-close:hover,.smart-close:hover{transform:translateY(-2px) scale(1.08)}
+.primary:hover{box-shadow:0 12px 28px -8px var(--fx-glow)}
+.secondary:hover,.outline:hover,.theme-toggle:hover,.smart-analysis-btn:hover,.smart-refresh:hover{box-shadow:0 10px 24px -10px var(--fx-glow)}
+.danger:hover{box-shadow:0 10px 24px -8px rgba(232,100,110,.55)}
+.primary:active,.secondary:active,.outline:active,.danger:active,.tiny:active,.quick:active,.smart-analysis-btn:active,.theme-toggle:active,.modal-close:active,.smart-refresh:active,.smart-close:active{transform:scale(.93)!important;filter:brightness(.95);transition-duration:.1s}
+.modal-close:hover,.smart-close:hover{transform:rotate(90deg) scale(1.1)}
+/* shimmer sweep */
+.primary:after,.smart-analysis-btn:after,.entry-submit:after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);pointer-events:none;opacity:0}
+.primary:hover:after,.smart-analysis-btn:hover:after,.entry-submit:hover:after{opacity:1;animation:fxShine .85s ease}
+@keyframes fxShine{from{left:-60%}to{left:130%}}
+/* primary call-to-action idle pulse */
+.smart-analysis-btn{animation:fxPulse 3.4s ease-in-out infinite}
+@keyframes fxPulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px transparent,0 0 22px -2px var(--fx-glow)}}
+/* ripple */
+.fx-ripple{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.32;transform:scale(0);animation:fxRipple .7s ease-out forwards;z-index:0}
+@keyframes fxRipple{to{transform:scale(1);opacity:0}}
+
+/* ---------- Sidebar navigation ---------- */
+.nav{transition:background-color .25s ease,color .25s ease,transform .3s var(--fx-spring),box-shadow .3s ease,padding .3s var(--fx-ease)}
+.nav:hover{transform:translateX(-6px)}
+.nav.active{animation:fxNavActive .5s var(--fx-spring)}
+.nav.active:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--fx-spot),transparent);background-size:200% 100%;animation:fxSweep 3.5s linear infinite;pointer-events:none}
+@keyframes fxNavActive{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes fxSweep{from{background-position:200% 0}to{background-position:-200% 0}}
+.logo{transition:transform .5s var(--fx-spring)}
+.brand:hover .logo{transform:rotate(360deg) scale(1.12)}
+.avatar{transition:transform .4s var(--fx-spring)}
+.avatar:hover{transform:scale(1.18) rotate(-8deg)}
+
+/* ---------- Cards: lift + mouse spotlight ---------- */
+.stat,.quick,.notification-card,.group-insight,.smart-strip-grid>div,.comparison-grid>div,.grade-summary>div,.finance-summary>div,.detail{
+  position:relative;transition:transform .35s var(--fx-spring),filter .3s ease,border-color .3s ease
+}
+.stat,.notification-card,.group-insight,.smart-strip-grid>div,.comparison-grid>div,.grade-summary>div,.finance-summary>div,.detail{overflow:hidden}
+.stat:hover,.notification-card:hover,.group-insight:hover,.smart-strip-grid>div:hover,.comparison-grid>div:hover,.grade-summary>div:hover,.finance-summary>div:hover{transform:translateY(-5px);filter:drop-shadow(0 14px 18px rgba(0,0,0,.22))}
+.quick:hover{transform:translateY(-4px) scale(1.02);filter:drop-shadow(0 12px 16px rgba(0,0,0,.22))}
+.stat:after,.quick:after,.notification-card:after,.group-insight:after,.smart-strip-grid>div:after,.comparison-grid>div:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),var(--fx-spot),transparent 65%)}
+.stat:hover:after,.quick:hover:after,.notification-card:hover:after,.group-insight:hover:after,.smart-strip-grid>div:hover:after,.comparison-grid>div:hover:after{opacity:1}
+.stat-icon{transition:transform .5s var(--fx-spring)}
+.stat:hover .stat-icon{transform:rotate(-12deg) scale(1.25)}
+.notification-icon{transition:transform .5s var(--fx-spring)}
+.notification-card:hover .notification-icon{transform:scale(1.2) rotate(-10deg)}
+.notification-card.danger .notification-icon{animation:fxRing 2.6s ease-in-out infinite}
+@keyframes fxRing{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(14deg)}80%{transform:rotate(-12deg)}85%{transform:rotate(9deg)}90%{transform:rotate(-6deg)}}
+
+/* ---------- Tables / rows / links ---------- */
+tbody tr{transition:background-color .25s ease,transform .25s ease}
+tbody tr:hover{transform:translateX(-4px)}
+.link-name{transition:color .2s,letter-spacing .25s ease,text-underline-offset .25s}
+.link-name:hover{letter-spacing:.4px;text-underline-offset:6px}
+.pill,.metric,.ranking-score{transition:transform .25s var(--fx-spring)}
+.pill:hover,.metric:hover,.ranking-score:hover{transform:scale(1.12)}
+
+/* ---------- Inputs ---------- */
+.field input,.field select,.field textarea,.search,.report-actions input,.followup-form input,.followup-form select,.followup-form textarea{transition:border-color .25s,box-shadow .35s ease,transform .3s var(--fx-spring)!important}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus,.report-actions input:focus{box-shadow:0 0 0 4px var(--fx-spot),0 8px 20px -10px var(--fx-glow);transform:translateY(-2px)}
+.field label{transition:color .25s,transform .25s}
+.field:focus-within label{color:var(--gold,#D6B875);transform:translateX(-3px)}
+form.fx-form-in,#formMount>*{animation:fxFormIn .55s var(--fx-ease) backwards}
+@keyframes fxFormIn{from{opacity:0;transform:translateY(-18px) scale(.97);filter:blur(5px)}}
+
+/* ---------- Modals ---------- */
+.modal-backdrop,.smart-backdrop{animation:fxFade .3s ease backwards}
+.modal,.smart-modal{animation:fxModalIn .55s var(--fx-spring) backwards}
+.modal-backdrop.fx-closing,.smart-backdrop.fx-closing{animation:fxFadeOut .22s ease forwards}
+.modal-backdrop.fx-closing .modal,.smart-backdrop.fx-closing .smart-modal{animation:fxModalOut .22s ease-in forwards}
+@keyframes fxFade{from{opacity:0}}
+@keyframes fxFadeOut{to{opacity:0}}
+@keyframes fxModalIn{from{opacity:0;transform:translateY(60px) scale(.86) rotateX(14deg);filter:blur(8px)}}
+@keyframes fxModalOut{to{opacity:0;transform:translateY(30px) scale(.92)}}
+.modal .modal-section{animation:fxRise .6s var(--fx-ease) backwards}
+.modal .modal-section:nth-of-type(1){animation-delay:.18s}.modal .modal-section:nth-of-type(2){animation-delay:.26s}
+.modal .modal-section:nth-of-type(3){animation-delay:.34s}.modal .modal-section:nth-of-type(4){animation-delay:.42s}
+.modal .modal-section:nth-of-type(n+5){animation-delay:.5s}
+.modal .detail{animation:fxRise .55s var(--fx-ease) backwards}
+.modal .detail:nth-child(1){animation-delay:.12s}.modal .detail:nth-child(2){animation-delay:.18s}
+.modal .detail:nth-child(3){animation-delay:.24s}.modal .detail:nth-child(4){animation-delay:.3s}
+.modal .detail:nth-child(n+5){animation-delay:.36s}
+.smart-insights article{animation:fxRise .6s var(--fx-ease) backwards}
+.smart-insights article:nth-child(1){animation-delay:.2s}.smart-insights article:nth-child(2){animation-delay:.28s}
+.smart-insights article:nth-child(3){animation-delay:.36s}.smart-insights article:nth-child(4){animation-delay:.44s}
+.smart-panel{animation:fxRise .6s var(--fx-ease) .5s backwards}
+.smart-score{animation:fxPop 1s var(--fx-spring) .3s backwards}
+
+/* ---------- Toast notice ---------- */
+.notice:not(.hidden){animation:fxToast .6s var(--fx-spring) backwards}
+@keyframes fxToast{from{opacity:0;transform:translateY(-26px) scale(.9)}}
+
+/* ---------- Misc polish ---------- */
+.privacy i{animation:fxDot 2s ease-in-out infinite}
+@keyframes fxDot{0%,100%{box-shadow:0 0 0 0 rgba(114,185,149,.6)}50%{box-shadow:0 0 0 7px rgba(114,185,149,0)}}
+.empty{animation:fxFloat 3.5s ease-in-out infinite}
+@keyframes fxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.insight-hero-score,.top-students-count{animation:fxFloat 4s ease-in-out infinite}
+html{scroll-behavior:smooth}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--fx-glow);border-radius:10px;border:2px solid transparent;background-clip:padding-box}
+
+/* ---------- Respect reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+@media(max-width:850px){body::before,body::after{display:none}.nav:hover{transform:none}.login-error .entry-panel{animation:none}}
